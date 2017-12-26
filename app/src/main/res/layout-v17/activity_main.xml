@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/let_apos_s_convert"
-        android:id="@+id/textView"
+        android:id="@+id/letsconvert"
         android:layout_marginTop="43dp"
         android:textSize="25sp"
         android:layout_alignParentTop="true"
@@ -24,12 +24,12 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/numInput"
         android:text="@string/value"
         android:inputType="none"
         android:textAlignment="center"
         android:textSize="35sp"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/letsconvert"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="14dp" />
@@ -39,9 +39,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/to"
-        android:id="@+id/textView2"
+        android:id="@+id/to"
         android:textSize="20sp"
-        android:layout_below="@+id/textView4"
+        android:layout_below="@+id/in"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
@@ -50,11 +50,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/final_spinner"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toLeftOf="@+id/textView3"
-        android:layout_toStartOf="@+id/textView3"
+        android:layout_alignTop="@+id/to"
+        android:layout_alignBottom="@+id/to"
+        android:layout_toRightOf="@+id/to"
+        android:layout_toLeftOf="@+id/result"
+        android:layout_toStartOf="@+id/result"
         android:layout_marginLeft="30dp"
         android:textAlignment="textStart" />
 
@@ -62,9 +62,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView3"
+        android:id="@+id/result"
         android:textSize="30sp"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/goButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="44dp" />
 
@@ -73,12 +73,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/in"
-        android:id="@+id/textView4"
+        android:id="@+id/in"
         android:textSize="20sp"
         android:layout_marginTop="24dp"
-        android:layout_below="@+id/editText"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_alignEnd="@+id/textView2" />
+        android:layout_below="@+id/numInput"
+        android:layout_alignRight="@+id/to"
+        android:layout_alignEnd="@+id/to" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -86,21 +86,21 @@
         android:id="@+id/first_spinner"
         android:layout_alignLeft="@+id/final_spinner"
         android:layout_alignStart="@+id/final_spinner"
-        android:layout_above="@+id/textView2"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3"
-        android:layout_alignTop="@+id/textView4" />
+        android:layout_above="@+id/to"
+        android:layout_alignRight="@+id/result"
+        android:layout_alignEnd="@+id/result"
+        android:layout_alignTop="@+id/in" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/go"
-        android:id="@+id/button"
+        android:id="@+id/goButton"
         android:textSize="30sp"
         android:layout_alignBottom="@+id/final_spinner"
-        android:layout_toRightOf="@+id/textView3"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText"
+        android:layout_toRightOf="@+id/result"
+        android:layout_alignRight="@+id/numInput"
+        android:layout_alignEnd="@+id/numInput"
         android:layout_alignTop="@+id/first_spinner" />
 
 

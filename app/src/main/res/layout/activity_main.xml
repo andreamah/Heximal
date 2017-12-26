@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/let_apos_s_convert"
-        android:id="@+id/textView"
+        android:id="@+id/letsconvert"
         android:layout_marginTop="101dp"
         android:textSize="30sp"
         android:layout_alignParentTop="true"
@@ -23,10 +23,10 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/numInput"
         android:text="@string/value"
         android:inputType="none"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/letsconvert"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:textSize="30sp" />
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/to"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/editText"
+        android:id="@+id/to"
+        android:layout_below="@+id/numInput"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

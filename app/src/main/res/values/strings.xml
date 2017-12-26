@@ -9,6 +9,6 @@
     <string-array name="first_array">
         <item>Decimal</item>
         <item>Binary</item>
-        <item>Hexidecimal</item>
+        <item>Hexadecimal</item>
     </string-array>
 </resources>
