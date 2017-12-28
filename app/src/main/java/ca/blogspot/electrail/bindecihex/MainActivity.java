@@ -1,10 +1,13 @@
 package ca.blogspot.electrail.bindecihex;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -20,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinnerFinal;
     private EditText numInput;
     private Button goButton;
+    TextView answIs;
 
     private View hidden;
     private boolean isHistory;
-
+    Animation bottomUp;
+    Animation topDown;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         final Spinner spinnerFirst = (Spinner) findViewById(R.id.first_spinner);
         final Spinner spinnerFinal = (Spinner) findViewById(R.id.final_spinner);
         final EditText numInput = (EditText)findViewById(R.id.numInput);
-        final Button goButton = (Button)findViewById(R.id.goButton);
+        goButton = (Button)findViewById(R.id.goButton);
         final TextView finalResult = (TextView)findViewById(R.id.result);
         final TextView answIs = (TextView)findViewById(R.id.answIs);
 
-        final View hidden = (View ) findViewById(R.id.hidden);
-        hidden.setVisibility(View.INVISIBLE);
+        hidden = findViewById(R.id.hidden);
         isHistory = false;
+
 
         // FROM OFFICIAL ANDROID DEVELOPER WEBPAGE FOR SPINNERS:
         //set the spinners to have the contents of first_array
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinnerFinal.setAdapter(adapter);
         spinnerFirst.setAdapter(adapter);
+        goButton.setVisibility(View.VISIBLE);
 
         //what to do when the "go!" button is pressed
         goButton.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
 
@@ -328,22 +336,35 @@ public class MainActivity extends AppCompatActivity {
         //return built string
         return result;
     }
-    public void slideUpDown(final View view) {
+//https://stackoverflow.com/questions/18232372/slide-a-layout-up-from-bottom-of-screen
+    public void slideUpDown(View view) {
         if(!isHistory) {
-
-            Animation bottomUp = AnimationUtils.loadAnimation(view.getContext(),
+            Animation bottomUp = AnimationUtils.loadAnimation(getApplicationContext(),
                     R.anim.up);
             hidden.startAnimation(bottomUp);
             hidden.setVisibility(View.VISIBLE);
+
+            AlphaAnimation animation1 = new AlphaAnimation(1.0f, 0.0f);
+            animation1.setDuration(250);
+            animation1.setFillAfter(true);
+            goButton.startAnimation(animation1);
             isHistory = true;
         }
         else {
-            Animation topDown = AnimationUtils.loadAnimation(view.getContext(),
+
+            Animation topDown = AnimationUtils.loadAnimation(getApplicationContext(),
                     R.anim.down);
             hidden.startAnimation(topDown);
-            hidden.setVisibility(View.INVISIBLE);
+            hidden.setVisibility(View.GONE);
+
+            AlphaAnimation animation1 = new AlphaAnimation(0.0f, 1.0f);
+            animation1.setDuration(1000);
+            animation1.setFillAfter(true);
+            goButton.startAnimation(animation1);
             isHistory = false;
         }
     }
 
 }
+
+
