@@ -3,7 +3,10 @@ package ca.blogspot.electrail.bindecihex;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,11 +14,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class MainActivity extends AppCompatActivity {
-    Spinner spinnerFirst;
-    Spinner spinnerFinal;
-    EditText numInput;
-    Button goButton;
+    private Spinner spinnerFirst;
+    private Spinner spinnerFinal;
+    private EditText numInput;
+    private Button goButton;
+
+    private View hidden;
+    private boolean isHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         final EditText numInput = (EditText)findViewById(R.id.numInput);
         final Button goButton = (Button)findViewById(R.id.goButton);
         final TextView finalResult = (TextView)findViewById(R.id.result);
+        final TextView answIs = (TextView)findViewById(R.id.answIs);
+
+        final View hidden = (View ) findViewById(R.id.hidden);
+        hidden.setVisibility(View.INVISIBLE);
+        isHistory = false;
 
         // FROM OFFICIAL ANDROID DEVELOPER WEBPAGE FOR SPINNERS:
         //set the spinners to have the contents of first_array
@@ -51,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 String binaryValue = null;
                 String result;
 
+                boolean correct = true;
+
                 //check for symbols that are not letters or numbers
                 for (int i = 0; i < input.length(); i++) {
                     if (!Character.toString((input.charAt(i))).matches("[0-9A-Za-z]")) {
@@ -61,17 +75,48 @@ public class MainActivity extends AppCompatActivity {
                             CharSequence text = "please format your value without special characters! :(";
                             int duration = Toast.LENGTH_SHORT;
                             Toast.makeText(context, text, duration).show();
+                            correct = false;
                         }
                     }
                 }
 
                 //take care of taking previous result to binary
+                //if input is incorrect and an exception is thrown,
+                //make a toast with the issue and mark the error flag as true
+                //when doing do, set binaryValue to the String 0 to ensure other methods can function
                 if (originalFrom.equals("Decimal"))
-                    binaryValue = fromDec(input);
+                    try {
+                        binaryValue = fromDec(input);
+                    } catch (Exception e) {
+                        Context context = getApplicationContext();
+                        CharSequence text = "please only use whole numbers (and no letters)! :(";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast.makeText(context, text, duration).show();
+                        correct = false;
+                        binaryValue = "0";
+                    }
                 else if (originalFrom.equals("Hexadecimal"))
-                    binaryValue = fromHex(input);
+                    try {
+                        binaryValue = fromHex(input);
+                    } catch (Exception e) {
+                        Context context = getApplicationContext();
+                        CharSequence text = "Please do not include letters G-Z in your input! :(";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast.makeText(context, text, duration).show();
+                        correct = false;
+                        binaryValue = "0";
+                    }
                 else
-                    binaryValue = checkBinary(input);
+                    try {
+                        binaryValue = checkBinary(input);
+                    } catch (Exception e) {
+                        Context context = getApplicationContext();
+                        CharSequence text = "please format your binary with only 1's and 0's! :(";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast.makeText(context, text, duration).show();
+                        correct = false;
+                        binaryValue = "0";
+                    }
 
                 //take intermediate binary value to the resultant form
                 if (finalFrom.equals("Decimal"))
@@ -80,35 +125,39 @@ public class MainActivity extends AppCompatActivity {
                     result = toHex(binaryValue);
                 else
                     result = binaryValue;
-                //set the text in the bottom field
-                finalResult.setText(result);
+
+                //if no exceptions were thrown, print out result.
+                //otherwise, print "error" instead of the given answer
+                if (correct) {
+                    //set the text in the bottom field
+                    answIs.setText("your answer in " + finalFrom + " is");
+                    finalResult.setText(result);
+                } else {
+                    answIs.setText("error");
+                    finalResult.setText("");
+
+                }
             }
         });
     }
 
+
+
     /**
      * Acts as a gate to ensure that the binary is formatted correctly
      * @param bin, a binary value
-     * @return the inputted binary value if the input is valid, otherwise 0
+     * @return the inputted binary value if the input is valid
+     * @throws badInputException if input is invalid
      */
-    private String checkBinary(String bin) {
+    private String checkBinary(String bin) throws badInputException{
         //iterate through the string
-        //if the character doesn't contain a 1 or 0, throw an exception and print an
-        //error message to the user
+        //if the character doesn't contain a 1 or 0, throw an exception
         for (int i = 0; i < bin.length(); i++)
         {
             int currentNum = bin.charAt(i);
             if (currentNum != '0' && currentNum !='1')
             {
-                try {
-                    throw new badInputException();
-                } catch (Exception e) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "please format your binary with only 1's and 0's! :(";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast.makeText(context, text, duration).show();
-                    return "0";
-                }
+                throw new badInputException();
             }
         }
         return bin;
@@ -116,23 +165,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Converts a decimal value to binary
-     * @param pre, a whole number in string format
+     * @param pre, a whole number in string format that does not cause overflow for an int
      * @return a string with the binary form of pre
      *              The string will return 0 if the text is not formatted correctly
+     * @throws NumberFormatException if input is invalid
      */
-    private String fromDec(String pre){
+    private String fromDec(String pre) throws NumberFormatException{
         //initialize decnumber, which is to hold pre as an integer
-        //if parsing as an int fails, throw an exception, alert the user, and return 0
+        //if parsing as an int fails, throw an exception, which will be
+        // caught in the mainActivity class
         int decNumber = 0;
-       try {
-            decNumber  = Integer.parseInt(pre);
-        } catch (Exception e) {
-            Context context = getApplicationContext();
-            CharSequence text = "please only use whole numbers (and no letters)! :(";
-            int duration = Toast.LENGTH_SHORT;
-            Toast.makeText(context, text, duration).show();
-            return "0";
-        }
+        decNumber  = Integer.parseInt(pre);
 
         //initialize the final string as the empty string, which gradually builds
         String finalString = "";
@@ -165,8 +208,9 @@ public class MainActivity extends AppCompatActivity {
      * converts from hexidecimal to binary
      * @param pre, a string that has a hexidecimal value, cna use lower or uppercase
      * @return the hexidecimal in binary form and 0 if the string is invalid
+     * @throws NumberFormatException or badInputException if input is invalid
      */
-    private String fromHex(String pre){
+    private String fromHex(String pre) throws badInputException, NumberFormatException {
         //initialize variabbles for a hex digit in integer form and string to be built
         Integer convNum;
         String finalString = "";
@@ -180,16 +224,7 @@ public class MainActivity extends AppCompatActivity {
             char currentChar = pre.charAt(i);
             //check if the string uses any invalid letters
             if ((currentChar >= 'G' && currentChar <= 'Z') || (currentChar >= 'g' && currentChar <= 'z')) {
-                try {
-                    throw new badInputException();
-                } catch (Exception e) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "Please do not include letters G-Z in your input! :(";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast.makeText(context, text, duration).show();
-                    return "0";
-                }
-
+                throw new badInputException();
             }
 
             ////convert the letters and numbers accordingly, from char to the proper int
@@ -293,6 +328,22 @@ public class MainActivity extends AppCompatActivity {
         //return built string
         return result;
     }
+    public void slideUpDown(final View view) {
+        if(!isHistory) {
 
+            Animation bottomUp = AnimationUtils.loadAnimation(view.getContext(),
+                    R.anim.up);
+            hidden.startAnimation(bottomUp);
+            hidden.setVisibility(View.VISIBLE);
+            isHistory = true;
+        }
+        else {
+            Animation topDown = AnimationUtils.loadAnimation(view.getContext(),
+                    R.anim.down);
+            hidden.startAnimation(topDown);
+            hidden.setVisibility(View.INVISIBLE);
+            isHistory = false;
+        }
+    }
 
 }

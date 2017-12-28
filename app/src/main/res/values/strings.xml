@@ -5,6 +5,8 @@
     <string name="to">to</string>
     <string name="in">in</string>
     <string name="go">GO!</string>
+    <string name="test">TESTTTTT</string>
+    <string name="seehist">see history</string>
 
     <string-array name="first_array">
         <item>Decimal</item>
