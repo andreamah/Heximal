@@ -1,7 +1,7 @@
 package ca.blogspot.electrail.bindecihex;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private Button goButton;
     private View hidden;
     private boolean isHistory;
@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView result6;
     private TextView hist7;
     private TextView result7;
+    private TextView hist8;
+    private TextView result8;
 
     private ArrayList<TextView> histList;
     private ArrayList<TextView> resultList;
@@ -91,19 +93,21 @@ public class MainActivity extends AppCompatActivity {
         result6 = (TextView)findViewById(R.id.result6);
         hist7 = (TextView)findViewById(R.id.history7);
         result7 = (TextView)findViewById(R.id.result7);
+        hist8 = (TextView)findViewById(R.id.history8);
+        result8 = (TextView)findViewById(R.id.result8);
 
         //initialize arraylist for all the textviews (for first and second line separately
         //and add all necessary elements
         histList = new ArrayList<TextView>();
         resultList = new ArrayList<TextView>();
-        histList.addAll(Arrays.asList(hist1, hist2, hist3, hist4, hist5, hist6, hist7));
-        resultList.addAll(Arrays.asList(result1,result2,result3,result4,result5,result6,result7));
+        histList.addAll(Arrays.asList(hist1, hist2, hist3, hist4, hist5, hist6, hist7,hist8));
+        resultList.addAll(Arrays.asList(result1,result2,result3,result4,result5,result6,result7,result8));
 
         // FROM OFFICIAL ANDROID DEVELOPER WEBPAGE FOR SPINNERS:
         //set the spinners to have the contents of first_array
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.first_array, android.R.layout.simple_spinner_item);
+                R.array.choices_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -200,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     //add the result to the result history array
                     historyResults.add(result);
                     //if there is too much in the history, take out the oldest pair of history strings
-                    if (historyTitles.size()>7)
+                    if (historyTitles.size()>8)
                     {
                         historyTitles.remove(0);
                         historyResults.remove(0);
