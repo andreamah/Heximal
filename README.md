@@ -5,7 +5,7 @@ As you may have already guessed, this app can convert any binary, hexadecimal, o
 
 I also integrated a history page function to show the last eight conversions that have occurred.
 
-I had lots of fun integrating lots of animations learning more about XML layouts when making this and I hope that you can enjoy!
+I had lots of fun integrating lots of animations and learning more about XML layouts when making this and I hope that you can enjoy!
 
 *- Andrea*
 
