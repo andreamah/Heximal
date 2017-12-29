@@ -123,23 +123,31 @@ public class MainActivity extends Activity {
                 String finalTo = spinnerFinal.getSelectedItem().toString();
 
                 String input = numInput.getText().toString();
-                String binaryValue = null;
+                String binaryValue;
                 String result;
 
                 boolean correct = true;
 
+                //check for no input
+
+                 if(input.isEmpty())
+                 {
+                     Context context = getApplicationContext();
+                     CharSequence text = "The input box is empty! :(";
+                     int duration = Toast.LENGTH_SHORT;
+                     Toast.makeText(context, text, duration).show();
+                     correct = false;
+                     input = "0";
+                 }
                 //check for symbols that are not letters or numbers
                 for (int i = 0; i < input.length(); i++) {
                     if (!Character.toString((input.charAt(i))).matches("[0-9A-Za-z]")) {
-                        try {
-                            throw new badInputException();
-                        } catch (Exception e) {
-                            Context context = getApplicationContext();
-                            CharSequence text = "please format your value without special characters! :(";
-                            int duration = Toast.LENGTH_SHORT;
-                            Toast.makeText(context, text, duration).show();
-                            correct = false;
-                        }
+                        Context context = getApplicationContext();
+                        CharSequence text = "please format your value without special characters! :(";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast.makeText(context, text, duration).show();
+                        correct = false;
+                        input = "0";
                     }
                 }
 
