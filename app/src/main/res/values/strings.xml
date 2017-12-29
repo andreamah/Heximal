@@ -5,7 +5,9 @@
     <string name="to">to</string>
     <string name="in">in</string>
     <string name="go">GO!</string>
-    <string name="test">TESTTTTT</string>
+    <string name="test"><u>From  01010101 (bin) to hex:</u></string>
+    <string name="test2"><u>From  01010000000000101 (bin) to hex:</u></string>
+    <string name="result1">55</string>
     <string name="seehist">see history</string>
 
     <string-array name="first_array">

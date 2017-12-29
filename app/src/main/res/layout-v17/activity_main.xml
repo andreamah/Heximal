@@ -25,6 +25,7 @@
         android:layout_marginTop="43dp"
         android:text="@string/let_apos_s_convert"
         android:textAlignment="center"
+        android:alpha="1.0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="25sp" />
 
@@ -38,6 +39,7 @@
         android:layout_marginTop="14dp"
         android:hint="@string/value"
         android:inputType="none"
+        android:alpha="1.0"
         android:textAlignment="center"
         android:textSize="35sp" />
 
@@ -50,6 +52,7 @@
         android:layout_below="@+id/in"
         android:layout_marginTop="10dp"
         android:text="@string/to"
+        android:alpha="1.0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="17sp" />
 
@@ -61,6 +64,7 @@
         android:layout_alignTop="@+id/to"
         android:layout_toEndOf="@+id/to"
         android:layout_toRightOf="@+id/to"
+        android:alpha="1.0"
         android:textAlignment="textStart" />
 
     <TextView
@@ -72,6 +76,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/answIs"
         android:textAlignment="center"
+        android:alpha="1.0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30sp" />
 
@@ -84,6 +89,7 @@
         android:layout_below="@+id/numInput"
         android:layout_marginTop="24dp"
         android:text="@string/in"
+        android:alpha="1.0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="17sp" />
 
@@ -94,6 +100,7 @@
         android:layout_above="@+id/to"
         android:layout_alignTop="@+id/in"
         android:layout_toEndOf="@+id/to"
+        android:alpha="1.0"
         android:layout_toRightOf="@+id/to" />
 
     <Button
@@ -104,13 +111,13 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/to"
         android:layout_marginTop="20dp"
+        android:alpha="1.0"
         android:background="@color/colorPrimary"
         android:text="@string/go"
-        android:alpha="1.0"
         android:textColor="@color/colorText"
         android:textSize="30sp"
 
-        />
+        android:visibility="visible" />
     <Button
         android:id="@+id/slide"
         android:layout_width="match_parent"
@@ -120,7 +127,7 @@
         android:layout_alignParentStart="true"
         android:fontFamily="monospace"
 
-        android:onClick="slideUpDown"
+        android:onClick="slideHistory"
         android:text="@string/seehist"
         android:textColor="@color/colorLightText"
         android:textSize="15sp"
@@ -136,26 +143,287 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="20sp"
+        android:alpha="1.0"
         android:textStyle="italic" />
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/hidden"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@color/colorHist">
+        android:background="@color/colorHist"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/hist_vertical_margin"
+        android:paddingLeft="@dimen/hist_horizontal_margin"
+        android:paddingRight="@dimen/hist_horizontal_margin"
+        android:paddingTop="@dimen/hist_vertical_margin"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/history"
+            android:id="@+id/history1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="43dp"
+            android:background="@color/colorHistListBG"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:paddingTop="@dimen/innerHist_vertical_margin"
             android:text="@string/test"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="25sp" />
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorHistLine1Text"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:alpha="0.0"/>
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/result1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorHistListBG"
+            android:paddingBottom="@dimen/innerHist_vertical_margin"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:text="@string/result1"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/history2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result1"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:paddingTop="@dimen/innerHist_vertical_margin"
+            android:text="@string/test"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorHistLine1Text"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/result2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:paddingBottom="@dimen/innerHist_vertical_margin"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:text="@string/result1"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/history3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result2"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorHistListBG"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:paddingTop="@dimen/innerHist_vertical_margin"
+            android:text="@string/test"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorHistLine1Text"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/result3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorHistListBG"
+            android:paddingBottom="@dimen/innerHist_vertical_margin"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:text="@string/result1"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/history4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result3"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:paddingTop="@dimen/innerHist_vertical_margin"
+            android:text="@string/test"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorHistLine1Text"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/result4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:paddingBottom="@dimen/innerHist_vertical_margin"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:text="@string/result1"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/history5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result4"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorHistListBG"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:paddingTop="@dimen/innerHist_vertical_margin"
+            android:text="@string/test"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorHistLine1Text"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/result5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorHistListBG"
+            android:paddingBottom="@dimen/innerHist_vertical_margin"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:text="@string/result1"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/history6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result5"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:paddingTop="@dimen/innerHist_vertical_margin"
+            android:text="@string/test"
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorHistLine1Text"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/result6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history6"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:paddingBottom="@dimen/innerHist_vertical_margin"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:text="@string/result1"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/history7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/result6"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorHistListBG"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:paddingTop="@dimen/innerHist_vertical_margin"
+            android:text=""
+            android:textAlignment="textStart"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorHistLine1Text"
+            android:textStyle="italic"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+        <TextView
+            android:id="@+id/result7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history7"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorHistListBG"
+            android:paddingBottom="@dimen/innerHist_vertical_margin"
+            android:paddingLeft="@dimen/innerHist_horizontal_margin"
+            android:paddingRight="@dimen/innerHist_horizontal_margin"
+            android:text=""
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:alpha="0.0"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

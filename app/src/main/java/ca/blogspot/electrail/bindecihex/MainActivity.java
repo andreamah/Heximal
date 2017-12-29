@@ -1,12 +1,9 @@
 package ca.blogspot.electrail.bindecihex;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,33 +14,90 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    private Spinner spinnerFirst;
-    private Spinner spinnerFinal;
-    private EditText numInput;
     private Button goButton;
-    TextView answIs;
-
     private View hidden;
     private boolean isHistory;
-    Animation bottomUp;
-    Animation topDown;
+    private ArrayList<String> historyTitles;
+    private ArrayList<String> historyResults;
+
+    private TextView hist1;
+    private TextView result1;
+    private TextView hist2;
+    private TextView result2;
+    private TextView hist3;
+    private TextView result3;
+    private TextView hist4;
+    private TextView result4;
+    private TextView hist5;
+    private TextView result5;
+    private TextView hist6;
+    private TextView result6;
+    private TextView hist7;
+    private TextView result7;
+
+    private ArrayList<TextView> histList;
+    private ArrayList<TextView> resultList;
+
+    private TextView answIs;
+    private TextView finalResult;
+    private EditText numInput;
+    private Spinner spinnerFirst;
+    private Spinner spinnerFinal;
+    private TextView letsConvert;
+    private TextView in;
+    private TextView to;
+    private Button hideShow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //declare variables for changing elements in the xml
-        final Spinner spinnerFirst = (Spinner) findViewById(R.id.first_spinner);
-        final Spinner spinnerFinal = (Spinner) findViewById(R.id.final_spinner);
-        final EditText numInput = (EditText)findViewById(R.id.numInput);
+        spinnerFirst = (Spinner) findViewById(R.id.first_spinner);
+        spinnerFinal = (Spinner) findViewById(R.id.final_spinner);
+        numInput = (EditText)findViewById(R.id.numInput);
+        finalResult = (TextView)findViewById(R.id.result);
+        answIs = (TextView)findViewById(R.id.answIs);
+        letsConvert = (TextView)findViewById(R.id.letsconvert);
+        in = (TextView)findViewById(R.id.in);
+        to = (TextView)findViewById(R.id.to);
+        hideShow = (Button)findViewById(R.id.slide);
         goButton = (Button)findViewById(R.id.goButton);
-        final TextView finalResult = (TextView)findViewById(R.id.result);
-        final TextView answIs = (TextView)findViewById(R.id.answIs);
-
         hidden = findViewById(R.id.hidden);
+
+        //initialize isHistory to signify that history is hidden
         isHistory = false;
 
+        //initialize array for history
+        historyTitles = new ArrayList<String>();
+        historyResults = new ArrayList<String>();
+
+        //initialize textviews for history
+        hist1 = (TextView)findViewById(R.id.history1);
+        result1 = (TextView)findViewById(R.id.result1);
+        hist2 = (TextView)findViewById(R.id.history2);
+        result2 = (TextView)findViewById(R.id.result2);
+        hist3 = (TextView)findViewById(R.id.history3);
+        result3 = (TextView)findViewById(R.id.result3);
+        hist4 = (TextView)findViewById(R.id.history4);
+        result4 = (TextView)findViewById(R.id.result4);
+        hist5 = (TextView)findViewById(R.id.history5);
+        result5 = (TextView)findViewById(R.id.result5);
+        hist6 = (TextView)findViewById(R.id.history6);
+        result6 = (TextView)findViewById(R.id.result6);
+        hist7 = (TextView)findViewById(R.id.history7);
+        result7 = (TextView)findViewById(R.id.result7);
+
+        //initialize arraylist for all the textviews (for first and second line separately
+        //and add all necessary elements
+        histList = new ArrayList<TextView>();
+        resultList = new ArrayList<TextView>();
+        histList.addAll(Arrays.asList(hist1, hist2, hist3, hist4, hist5, hist6, hist7));
+        resultList.addAll(Arrays.asList(result1,result2,result3,result4,result5,result6,result7));
 
         // FROM OFFICIAL ANDROID DEVELOPER WEBPAGE FOR SPINNERS:
         //set the spinners to have the contents of first_array
@@ -55,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinnerFinal.setAdapter(adapter);
         spinnerFirst.setAdapter(adapter);
-        goButton.setVisibility(View.VISIBLE);
 
         //what to do when the "go!" button is pressed
         goButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //get the input information and initialize result and intermediate values
                 String originalFrom = spinnerFirst.getSelectedItem().toString();
-                String finalFrom = spinnerFinal.getSelectedItem().toString();
+                String finalTo = spinnerFinal.getSelectedItem().toString();
 
                 String input = numInput.getText().toString();
                 String binaryValue = null;
@@ -125,31 +178,55 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 //take intermediate binary value to the resultant form
-                if (finalFrom.equals("Decimal"))
+                if (finalTo.equals("Decimal"))
                     result = toDec(binaryValue);
-                else if (finalFrom.equals("Hexadecimal"))
+                else if (finalTo.equals("Hexadecimal"))
                     result = toHex(binaryValue);
                 else
                     result = binaryValue;
 
-                //if no exceptions were thrown, print out result.
+                //if no exceptions were thrown, print out result and record history
                 //otherwise, print "error" instead of the given answer
                 if (correct) {
                     //set the text in the bottom field
-                    answIs.setText("your answer in " + finalFrom + " is");
+                    answIs.setText("your answer in " + finalTo + " is");
                     finalResult.setText(result);
+
+                    //format the new string stating the query to add to the history and add to
+                    //the historyTitles array list
+                    String addToHist = "From " + input + " (" + shorten(originalFrom) + ") to "+
+                            shorten(finalTo) +":";
+                    historyTitles.add(addToHist);
+                    //add the result to the result history array
+                    historyResults.add(result);
+                    //if there is too much in the history, take out the oldest pair of history strings
+                    if (historyTitles.size()>7)
+                    {
+                        historyTitles.remove(0);
+                        historyResults.remove(0);
+                    }
                 } else {
                     answIs.setText("error");
                     finalResult.setText("");
 
                 }
+
+
             }
         });
 
 
     }
 
-
+    private String shorten(String original)
+    {
+        if (original.equals("Decimal"))
+            return "dec";
+        else if (original.equals("Hexadecimal"))
+            return "hex";
+        else
+            return "bin";
+    }
 
     /**
      * Acts as a gate to ensure that the binary is formatted correctly
@@ -336,31 +413,132 @@ public class MainActivity extends AppCompatActivity {
         //return built string
         return result;
     }
-//https://stackoverflow.com/questions/18232372/slide-a-layout-up-from-bottom-of-screen
-    public void slideUpDown(View view) {
+
+    /**
+     * Void method that regulates what occurs when someone wants to open/close history
+     * @param view, which is the current view that it is using
+     */
+    public void slideHistory(View view) {
         if(!isHistory) {
+
+            //if the history is empty, display "no history to show" in the second textview row
+            //because that is the first row with no background color
+            //make the first row's visibility GONE so that the text is at the top of the history
+
+            //otherwise, assign the history to its respective textviews, with the newest at the top
+            if (historyTitles.isEmpty())
+            {
+                histList.get(1).setText("no history to show!");
+                resultList.get(1).setText("");
+
+                histList.get(0).setVisibility(View.GONE);
+                resultList.get(0).setVisibility(View.GONE);
+                histList.get(1).animate().alpha(1).setDuration(200).setStartDelay(1000);
+                resultList.get(1).animate().alpha(1).setDuration(200).setStartDelay(1000);
+            } else {
+                for (int j = 0; j < historyTitles.size(); j++) {
+                    histList.get(j).setText(historyTitles.get(historyTitles.size()-(j+1)));
+                    resultList.get(j).setText(historyResults.get(historyResults.size()-(j+1)));
+                }
+            }
+
+            //animate the display of the history items
+            //start 1 second after hide/show button is pushed and have each next item print after 150 miliseconds
+            int offset = 1000;
+            for (int i = 0; i < historyTitles.size(); i++)
+            {
+                histList.get(i).animate().alpha(1).setDuration(200).setStartDelay(offset);
+                resultList.get(i).animate().alpha(1).setDuration(200).setStartDelay(offset);
+                offset+=150;
+            }
+
+            //make an arraylist of alphaAnimations going from an opacity of 1 to 0, each with a
+            //offset of 50 miliseconds more than the one before, starting at 0
+            ArrayList<AlphaAnimation> alphAn = new ArrayList<AlphaAnimation>();
+
+            int offsetBefore = 0;
+            for (int i = 0; i < 7 ; i++)
+            {
+                alphAn.add(new AlphaAnimation(1.0f, 0.0f));
+                alphAn.get(i).setDuration(150);
+                alphAn.get(i).setFillAfter(true);
+                alphAn.get(i).setStartOffset(offsetBefore);
+                offsetBefore+= 50;
+            }
+
+            //apply animations so that the lowest appears first (has lowest offset)
+            letsConvert.startAnimation(alphAn.get(6));
+            numInput.startAnimation(alphAn.get(5));
+            in.startAnimation(alphAn.get(4));
+            spinnerFirst.startAnimation(alphAn.get(4));
+            to.startAnimation(alphAn.get(3));
+            spinnerFinal.startAnimation(alphAn.get(3));
+            goButton.startAnimation(alphAn.get(2));
+            answIs.startAnimation(alphAn.get(1));
+            finalResult.startAnimation(alphAn.get(0));
+
+            //animate the hideShow button to open the history bar
+            //bottomUp animation is from Paul's answer on https://stackoverflow.com/questions/18232372/slide-a-layout-up-from-bottom-of-screen
             Animation bottomUp = AnimationUtils.loadAnimation(getApplicationContext(),
                     R.anim.up);
             hidden.startAnimation(bottomUp);
             hidden.setVisibility(View.VISIBLE);
 
-            AlphaAnimation animation1 = new AlphaAnimation(1.0f, 0.0f);
-            animation1.setDuration(250);
-            animation1.setFillAfter(true);
-            goButton.startAnimation(animation1);
+            hideShow.setText("hide history");
             isHistory = true;
         }
         else {
+            //if the list was empty, essentially undo what was done to show "no history to show!"
+            //do this by taking away the visibility of GONE to the first set of textViews
+            //and taking the second set to an opacity of 0
 
+            //if not empty,
+            if (historyTitles.isEmpty())
+            {
+                histList.get(0).setVisibility(View.VISIBLE);
+                resultList.get(0).setVisibility(View.VISIBLE);
+                histList.get(1).animate().alpha(0).setDuration(200);
+                resultList.get(1).animate().alpha(0).setDuration(200);
+            }
+
+            //animate the list to disappear, with a difference of offset 50 miliseconds, starting at 0
+            int offsetOut = 0;
+            for (int i = 0; i < historyTitles.size(); i++) {
+                histList.get(i).animate().alpha(0).setDuration(200).setStartDelay(offsetOut);
+                resultList.get(i).animate().alpha(0).setDuration(200).setStartDelay(offsetOut);
+                offsetOut += 50;
+            }
+            //make an arrayList of alpha animations again, but animate from an opacity
+            //of 0 to 1 and set the initial offset of 400
+            ArrayList<AlphaAnimation> alphAn = new ArrayList<AlphaAnimation>();
+            int offsetBefore = 400;
+            for (int i = 0; i < 7 ; i++)
+            {
+                alphAn.add(new AlphaAnimation(0.0f, 1.0f));
+                alphAn.get(i).setDuration(150);
+                alphAn.get(i).setFillAfter(true);
+                alphAn.get(i).setStartOffset(offsetBefore);
+                offsetBefore+= 150;
+            }
+            //assign to views to that the top view reappears first
+            letsConvert.startAnimation(alphAn.get(0));
+            numInput.startAnimation(alphAn.get(1));
+            in.startAnimation(alphAn.get(2));
+            spinnerFirst.startAnimation(alphAn.get(2));
+            to.startAnimation(alphAn.get(3));
+            spinnerFinal.startAnimation(alphAn.get(3));
+            goButton.startAnimation(alphAn.get(4));
+            answIs.startAnimation(alphAn.get(5));
+            finalResult.startAnimation(alphAn.get(6));
+
+            //animate the hideShow button to close the history bar
+            //from Paul's answer on https://stackoverflow.com/questions/18232372/slide-a-layout-up-from-bottom-of-screen
             Animation topDown = AnimationUtils.loadAnimation(getApplicationContext(),
                     R.anim.down);
             hidden.startAnimation(topDown);
             hidden.setVisibility(View.GONE);
 
-            AlphaAnimation animation1 = new AlphaAnimation(0.0f, 1.0f);
-            animation1.setDuration(1000);
-            animation1.setFillAfter(true);
-            goButton.startAnimation(animation1);
+            hideShow.setText("see history again");
             isHistory = false;
         }
     }

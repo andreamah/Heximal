@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
+    //from Paul's answer on https://stackoverflow.com/questions/18232372/slide-a-layout-up-from-bottom-of-screen
     <translate android:fromYDelta="75%p" android:toYDelta="0%p"
         android:fillAfter="true"
-        android:duration="500"/>
+        android:duration="1000"/>
 </set>
