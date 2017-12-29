@@ -1,7 +1,7 @@
 # Heximal
-**Wecome to my binary, hexidecimal, and decimal converter!**
+**Welcome to my binary, hexadecimal, and decimal converter!**
 
-As you may have already guessed, this app can convert any binary, hexidecimal, or decimal value to binary, hexidecimal, or decimal.
+As you may have already guessed, this app can convert any binary, hexadecimal, or decimal value to binary, hexadecimal, or decimal.
 
 I also integrated a history page function to show the last eight conversions that have occurred.
 
